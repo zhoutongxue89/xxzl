@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 编程工具全解析</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        main {
+            padding: 40px;
+        }
+        
+        section {
+            margin-bottom: 40px;
+        }
+        
+        h2 {
+            color: #1a1a2e;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        h3 {
+            color: #5e4fd8;
+            font-size: 1.3em;
+            margin: 25px 0 15px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin: 15px 0 15px 25px;
+        }
+        
+        li {
+            margin-bottom: 10px;
+        }
+        
+        .tool-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
+        .tool-card h3 {
+            margin-top: 0;
+            color: #1a1a2e;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tool-icon {
+            font-size: 1.5em;
+        }
+        
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: 500;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+        
+        .tag-free {
+            background: #27ae60;
+            color: white;
+        }
+        
+        .tag-paid {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .tag-freemium {
+            background: #f39c12;
+            color: white;
+        }
+        
+        .tag-china-yes {
+            background: #3498db;
+            color: white;
+        }
+        
+        .tag-china-no {
+            background: #95a5a6;
+            color: white;
+        }
+        
+        .tag-china-limited {
+            background: #e67e22;
+            color: white;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .check {
+            color: #27ae60;
+            font-weight: bold;
+        }
+        
+        .cross {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        
+        .tip-box {
+            background: linear-gradient(135deg, #e8f4fd 0%, #d4ecf9 100%);
+            border: 2px solid #326ce5;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .tip-box::before {
+            content: '💡';
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .warning-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .warning-box::before {
+            content: '⚠️';
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+        
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .feature-item .check {
+            font-size: 1.2em;
+        }
+        
+        footer {
+            background: #1a1a2e;
+            color: #abb2bf;
+            text-align: center;
+            padding: 30px;
+            font-size: 0.9em;
+        }
+        
+        .relation-diagram {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .relation-diagram h4 {
+            margin-bottom: 20px;
+            color: #1a1a2e;
+        }
+        
+        .diagram-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 15px 0;
+        }
+        
+        .diagram-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 500;
+        }
+        
+        .diagram-arrow {
+            font-size: 1.5em;
+            color: #667eea;
+        }
+        
+        .section-intro {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            header h1 {
+                font-size: 1.8em;
+            }
+            
+            .comparison-table {
+                font-size: 0.85em;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 8px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI 编程工具全解析</h1>
+            <p class="subtitle">Codex / Claude Code / ChatGPT / Cursor / 及其他主流工具</p>
+        </header>
+        
+        <main>
+            <section>
+                <div class="section-intro">
+                    <p>2025-2026 年是 AI 编程工具爆发的一年，从命令行到 IDE 插件，从代码补全到 autonomous agents，各种工具让人眼花缭乱。本文将全面对比主流 AI 编程工具，帮助你选择最适合的那一款。</p>
+                </div>
+            </section>
+            
+            <section>
+                <h2>🆚 主流工具对比一览</h2>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>工具名称</th>
+                            <th>类型</th>
+                            <th>收费</th>
+                            <th>国内访问</th>
+                            <th>适用人群</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OpenAI Codex</strong></td>
+                            <td>CLI / IDE插件</td>
+                            <td><span class="tag tag-free">免费/付费</span></td>
+                            <td><span class="tag tag-china-limited">需代理</span></td>
+                            <td>专业开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Claude Code</strong></td>
+                            <td>CLI 编程代理</td>
+                            <td><span class="tag tag-paid">$20-200/月</span></td>
+                            <td><span class="tag tag-china-limited">需代理</span></td>
+                            <td>专业开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ChatGPT</strong></td>
+                            <td>对话AI</td>
+                            <td><span class="tag tag-freemium">免费/付费</span></td>
+                            <td><span class="tag tag-china-limited">需代理</span></td>
+                            <td>所有人</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cursor</strong></td>
+                            <td>AI IDE</td>
+                            <td><span class="tag tag-freemium">免费/付费</span></td>
+                            <td><span class="tag tag-china-no">部分限制</span></td>
+                            <td>开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>GitHub Copilot</strong></td>
+                            <td>IDE插件</td>
+                            <td><span class="tag tag-paid">$10/月</span></td>
+                            <td><span class="tag tag-china-yes">✅ 可用</span></td>
+                            <td>开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>通义灵码</strong></td>
+                            <td>IDE插件</td>
+                            <td><span class="tag tag-free">免费</span></td>
+                            <td><span class="tag tag-china-yes">✅ 可用</span></td>
+                            <td>国内开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>百度 Comate</strong></td>
+                            <td>IDE插件</td>
+                            <td><span class="tag tag-free">免费</span></td>
+                            <td><span class="tag tag-china-yes">✅ 可用</span></td>
+                            <td>国内开发者</td>
+                        </tr>
+                        <tr>
+                            <td><strong>DeepSeek Coder</strong></td>
+                            <td>CLI / API</td>
+                            <td><span class="tag tag-free">开源免费</span></td>
+                            <td><span class="tag tag-china-yes">✅ 可用</span></td>
+                            <td>开发者</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            
+            <section>
+                <h2>📦 工具详细介绍</h2>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">🔬</span> OpenAI Codex</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-free">有免费额度</span>
+                        <span class="tag tag-china-limited">需代理访问</span>
+                    </div>
+                    <p>Codex 是 OpenAI 推出的 AI 编程工具，基于 GPT-5 模型，专门针对编程任务优化。它可以独立运行在终端中，也支持 VS Code 和 JetBrains IDE 插件。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>Codex CLI</strong>：终端命令行工具，支持自然语言编程</li>
+                        <li><strong>IDE 插件</strong>：支持 VS Code、JetBrains 系列（IDEA、Pycharm 等）</li>
+                        <li><strong>项目级理解</strong>：能理解整个代码库，进行跨文件修改</li>
+                        <li><strong>MCP 插件支持</strong>：可扩展各种功能</li>
+                        <li><strong>价格</strong>：有免费额度，付费约 $20/月</li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>国内使用注意：</strong> 需要代理/VPN 才能正常使用，支付需要国外信用卡。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">🧠</span> Claude Code (OpenClaw)</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-paid">$20-200/月</span>
+                        <span class="tag tag-china-limited">需代理访问</span>
+                    </div>
+                    <p>Claude Code 是 Anthropic 推出的终端 AI 编程代理（2026年初更名为 OpenClaw），被称为目前最强的终端 AI 编程工具。它不是简单的代码补全，而是真正能自主理解代码库、执行复杂任务的 AI 代理。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>终端 AI 代理</strong>：在命令行中运行，通过自然语言指令完成任务</li>
+                        <li><strong>项目级理解</strong>：能读取、分析、修改整个代码库</li>
+                        <li><strong>Git 工作流</strong>：自动处理 commit、branch 等 Git 操作</li>
+                        <li><strong>多模型选择</strong>：支持 Opus 4、Haiku 等模型</li>
+                        <li><strong>价格</strong>：
+                            <ul>
+                                <li>Pro：$20/月（200次快速请求/周）</li>
+                                <li>Max：$100/月（无限制）/ $200/月（最强模型）</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>国内使用注意：</strong> 需要代理/VPN，支付需要国外信用卡或代购。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">💬</span> ChatGPT</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-freemium">免费/付费</span>
+                        <span class="tag tag-china-limited">需代理访问</span>
+                    </div>
+                    <p>ChatGPT 是 OpenAI 推出的对话式 AI，2022年底发布后掀起生成式 AI 热潮。虽然主要是对话工具，但通过 GPTs 和 Code Interpreter 等功能也能辅助编程。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>对话交互</strong>：通过自然语言问答获取编程帮助</li>
+                        <li><strong>代码生成</strong>：可以直接生成各种语言的代码</li>
+                        <li><strong>GPTs</strong>：创建定制化的 AI 助手</li>
+                        <li><strong>Code Interpreter</strong>：可执行代码、进行数据分析</li>
+                        <li><strong>o1/o3 模型</strong>：强大的推理能力，适合复杂问题</li>
+                        <li><strong>价格</strong>：免费版够用，Plus $20/月，Pro $200/月</li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>国内使用注意：</strong> 需要代理/VPN，国内手机号无法注册。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">⚡</span> Cursor</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-freemium">免费/付费</span>
+                        <span class="tag tag-china-no">部分限制</span>
+                    </div>
+                    <p>Cursor 是基于 VS Code 的 AI 原生代码编辑器，深度集成 GPT-4、Claude 等大模型。它不是插件，而是全新的 IDE，AI 深度融入编辑体验。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>AI 原生 IDE</strong>：从底层融入 AI，不是插件</li>
+                        <li><strong>智能补全</strong>：基于项目上下文的代码补全</li>
+                        <li><strong>Chat 模式</strong>：侧边栏对话，询问代码问题</li>
+                        <li><strong>Edit 模式</strong>：AI 辅助代码编辑</li>
+                        <li><strong>Terminal 集成</strong>：终端也能智能交互</li>
+                        <li><strong>价格</strong>：
+                            <ul>
+                                <li>Hobby：免费，每月 2000 次请求</li>
+                                <li>Pro：$20/月，无限请求</li>
+                                <li>Business：$40/月/用户</li>
+                            </ul>
+                        </li>
+                    </ul>
+                    
+                    <div class="warning-box">
+                        <strong>国内使用注意：</strong> 2025年7月起对中国大陆断供 Claude、Gemini 等核心模型，付费用户可能受影响。建议关注官方政策或使用国内替代品。
+                    </div>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">🔗</span> GitHub Copilot</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-paid">$10/月</span>
+                        <span class="tag tag-china-yes">✅ 国内可用</span>
+                    </div>
+                    <p>GitHub Copilot 是微软/GitHub 推出的 AI 代码补全工具，业界老牌选手，与 VS Code、JetBrains 等主流 IDE 无缝集成。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>代码补全</strong>：基于上下文的智能补全</li>
+                        <li><strong>多语言支持</strong>：支持所有主流编程语言</li>
+                        <li><strong>IDE 集成</strong>：VS Code、JetBrains、Visual Studio 等</li>
+                        <li><strong>GitHub Copilot Chat</strong>：对话式编程助手</li>
+                        <li><strong>企业版</strong>：企业版 $19/月，有安全合规保障</li>
+                        <li><strong>价格</strong>：个人版 $10/月，学生/开源免费</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">🐱</span> 通义灵码</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-free">完全免费</span>
+                        <span class="tag tag-china-yes">✅ 国内首选</span>
+                    </div>
+                    <p>通义灵码是阿里云推出的 AI 编程助手，专门针对中文开发者优化，完全免费！是当前国内最受欢迎的 AI 编程工具之一。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>智能补全</strong>：代码补全、续写</li>
+                        <li><strong>自然语言生成代码</strong>：用中文描述需求生成代码</li>
+                        <li><strong>代码解释</strong>：选中代码即可解释</li>
+                        <li><strong>阿里云集成</strong>：深度集成阿里云生态</li>
+                        <li><strong>IDE 支持</strong>：VS Code、JetBrains 全支持</li>
+                        <li><strong>价格</strong>：<strong>完全免费！</strong></li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">🔍</span> 百度 Comate</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-free">免费/付费</span>
+                        <span class="tag tag-china-yes">✅ 国内可用</span>
+                    </div>
+                    <p>百度 Comate 是百度智能云推出的 AI 编程助手，基于文心大模型，针对中文场景优化。</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>代码补全</strong>：智能代码补全</li>
+                        <li><strong>代码生成</strong>：自然语言生成代码</li>
+                        <li><strong>代码优化</strong>：代码优化建议</li>
+                        <li><strong>企业版</strong>：支持私有化部署</li>
+                        <li><strong>价格</strong>：个人免费，企业付费</li>
+                    </ul>
+                </div>
+                
+                <div class="tool-card">
+                    <h3><span class="tool-icon">�深海</span> DeepSeek Coder</h3>
+                    <div style="margin: 10px 0;">
+                        <span class="tag tag-free">开源免费</span>
+                        <span class="tag tag-china-yes">✅ 国内自主</span>
+                    </div>
+                    <p>DeepSeek Coder 是国产开源代码大模型，由深度求索公司开发，性能对标 GPT-4，开源免费！</p>
+                    
+                    <h4>主要功能：</h4>
+                    <ul>
+                        <li><strong>开源模型</strong>：可本地部署</li>
+                        <li><strong>高性能</strong>：代码能力对标 GPT-4</li>
+                        <li><strong>API 调用</strong>：提供 API 服务</li>
+                        <li><strong>本地部署</strong>：支持私有化部署</li>
+                        <li><strong>价格</strong>：<strong>开源免费</strong></li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section>
+                <h2>🔗 工具之间的关系</h2>
+                <div class="relation-diagram">
+                    <h4>公司/技术血缘关系</h4>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">OpenAI</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">ChatGPT</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">Codex</div>
+                    </div>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">Anthropic</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">Claude</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">Claude Code</div>
+                    </div>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">微软 + OpenAI</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">GitHub Copilot</div>
+                    </div>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">阿里</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">通义灵码</div>
+                    </div>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">百度</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">Comate</div>
+                    </div>
+                    
+                    <div class="diagram-row">
+                        <div class="diagram-box">深度求索</div>
+                        <span class="diagram-arrow">→</span>
+                        <div class="diagram-box">DeepSeek Coder</div>
+                    </div>
+                </div>
+                
+                <div class="tip-box">
+                    <strong>补充说明：</strong>
+                    <ul>
+                        <li><strong>Cursor</strong> 背后用的是 OpenAI 和 Anthropic 的模型，但自己做了 IDE 层面的深度整合</li>
+                        <li><strong>Claude Code</strong> 2026年初改名为 <strong>OpenClaw</strong>，但大家还是习惯叫 Claude Code</li>
+                        <li>这些工具大多数支持 <strong>MCP (Model Context Protocol)</strong>，可以互相扩展功能</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section>
+                <h2>🎯 如何选择？</h2>
+                
+                <div class="tool-card">
+                    <h3>🎓 学生 / 初学者</h3>
+                    <p><strong>推荐：通义灵码、百度 Comate、GitHub Copilot（学生免费）</strong></p>
+                    <p>完全免费，中文体验好，有问题容易找到帮助。</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>💼 专业开发者</h3>
+                    <p><strong>推荐：Claude Code > Codex > Cursor > GitHub Copilot</strong></p>
+                    <p>追求效率和高级功能，愿意为此付费。Claude Code 和 Codex 是目前最强的两个 CLI 工具。</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>🏢 企业用户</h3>
+                    <p><strong>推荐：GitHub Copilot Business/Enterprise、百度 Comate、通义灵码</strong></p>
+                    <p>需要考虑数据安全、合规、私有化部署等企业级需求。</p>
+                </div>
+                
+                <div class="tool-card">
+                    <h3>🇨🇳 国内开发者</h3>
+                    <p><strong>首选：通义灵码、百度 Comate、DeepSeek Coder</strong></p>
+                    <p>网络稳定、中文优化好、完全免费/价格实惠。如果需要更强功能再考虑代理访问国外工具。</p>
+                </div>
+            </section>
+            
+            <section>
+                <h2>📊 总结</h2>
+                <div class="tip-box">
+                    <strong>一句话总结：</strong>
+                    <ul>
+                        <li><strong>想省心免费用</strong> → 通义灵码</li>
+                        <li><strong>追求最强 AI 编程能力</strong> → Claude Code / Codex</li>
+                        <li><strong>想要 AI 深度融合的编辑器</strong> → Cursor</li>
+                        <li><strong>老牌稳健选择</strong> → GitHub Copilot</li>
+                        <li><strong>支持国产</strong> → 通义灵码 / 百度 Comate / DeepSeek</li>
+                    </ul>
+                </div>
+                
+                <div class="warning-box">
+                    <strong>⚠️ 特别提醒：</strong>
+                    <ul>
+                        <li>国外工具（Codex、Claude Code、ChatGPT、Cursor）在国内使用需要代理，并可能面临支付障碍和政策风险</li>
+                        <li>2025年7月起 Cursor 对中国大陆限制部分功能，使用前请务必了解最新政策</li>
+                        <li>国内工具虽然免费，但在某些高级功能上可能与国外顶级工具存在差距</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <section>
+                <h2>🔗 相关链接</h2>
+                <ul>
+                    <li><a href="https://openai.com/codex" target="_blank">OpenAI Codex 官网</a></li>
+                    <li><a href="https://www.anthropic.com/claude-code" target="_blank">Claude Code 官网</a></li>
+                    <li><a href="https://chat.openai.com" target="_blank">ChatGPT</a></li>
+                    <li><a href="https://cursor.com" target="_blank">Cursor</a></li>
+                    <li><a href="https://github.com/features/copilot" target="_blank">GitHub Copilot</a></li>
+                    <li><a href="https://tongyi.aliyun.com/lingma" target="_blank">通义灵码</a></li>
+                    <li><a href="https://comate.baidu.com" target="_blank">百度 Comate</a></li>
+                    <li><a href="https://www.deepseek.com" target="_blank">DeepSeek</a></li>
+                </ul>
+            </section>
+        </main>
+        
+        <footer>
+            <p>🤖 AI 编程工具全解析 | 整理 by 周同学</p>
+            <p>Keep Learning, Keep Growing!</p>
+        </footer>
+    </div>
+</body>
+</html>
